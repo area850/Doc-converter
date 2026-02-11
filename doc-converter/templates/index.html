@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocSwitch - Universal Document Converter</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/static/docswitch.png" alt="DocSwitch Logo">
+            <p>Convert any document to PDF in seconds. Free, fast, and secure.</p>
+        </div>
+        
+        <div class="converter-box">
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drag & Drop Your File Here</h3>
+                <p>Or click to browse files</p>
+                <p id="fileName">No file selected</p>
+                <input type="file" id="fileInput">
+                <button class="btn" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-folder-open"></i> Browse Files
+                </button>
+            </div>
+            
+            <h3>Select Conversion Type:</h3>
+            <div class="conversion-types">
+                <div class="type-card" data-type="docx_to_pdf">
+                    <i class="fas fa-file-word"></i>
+                    <h4>Word to PDF</h4>
+                    <p>.docx → .pdf</p>
+                </div>
+                <div class="type-card" data-type="xlsx_to_pdf">
+                    <i class="fas fa-file-excel"></i>
+                    <h4>Excel to PDF</h4>
+                    <p>.xlsx → .pdf</p>
+                </div>
+                <div class="type-card" data-type="pptx_to_pdf">
+                    <i class="fas fa-file-powerpoint"></i>
+                    <h4>PPT to PDF</h4>
+                    <p>.pptx → .pdf</p>
+                </div>
+                <div class="type-card" data-type="jpg_to_pdf">
+                    <i class="fas fa-file-image"></i>
+                    <h4>Image to PDF</h4>
+                    <p>.jpg/.png → .pdf</p>
+                </div>
+                <div class="type-card" data-type="txt_to_pdf">
+                    <i class="fas fa-file-alt"></i>
+                    <h4>Text to PDF</h4>
+                    <p>.txt → .pdf</p>
+                </div>
+            </div>
+            
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill"></div>
+            </div>
+            
+            <button class="btn btn-convert" id="convertBtn">
+                <i class="fas fa-bolt"></i> Convert to PDF
+            </button>
+            
+            <div id="result"></div>
+            
+            <div style="text-align: center; margin-top: 20px; color: #666;">
+                <i class="fas fa-shield-alt"></i> 
+                <small>Your files are processed securely and automatically deleted after conversion.</small>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <span class="stat-number" id="todayCount">0</span>
+                Conversions Today
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="totalCount">0</span>
+                Total Conversions
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">5</span>
+                Free Daily Limit
+            </div>
+        </div>
+        
+        <div class="supported-formats">
+            <h3><i class="fas fa-check-circle"></i> Supported Formats</h3>
+            <div class="format-grid">
+                <div class="format-chip"><i class="fas fa-file-word"></i> DOCX</div>
+                <div class="format-chip"><i class="fas fa-file-excel"></i> XLSX</div>
+                <div class="format-chip"><i class="fas fa-file-powerpoint"></i> PPTX</div>
+                <div class="format-chip"><i class="fas fa-file-alt"></i> TXT</div>
+                <div class="format-chip"><i class="fas fa-file-code"></i> MD</div>
+                <div class="format-chip"><i class="fas fa-table"></i> CSV</div>
+                <div class="format-chip"><i class="fas fa-file-image"></i> JPG</div>
+                <div class="format-chip"><i class="fas fa-file-image"></i> PNG</div>
+                <div class="format-chip"><i class="fas fa-file-image"></i> GIF</div>
+                <div class="format-chip"><i class="fas fa-file-pdf"></i> Output: PDF</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; color: white;">
+            <p><i class="fas fa-crown"></i> Need more conversions? <a href="/upgrade" style="color: #4cc9f0; text-decoration: none;">Upgrade to Pro</a></p>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Pro - DocSwitch</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/upgrade.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="upgrade-container">
+        <!-- Header -->
+        <header class="upgrade-header">
+            <a href="/" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Converter
+            </a>
+            <div class="logo">
+                <h1> <img src="/static/docswitch.png" alt="DocSwitch Logo"> <span class="pro-badge">PRO</span></h1>
+            </div>
+            <p>Upgrade to unlock unlimited conversions and premium features</p>
+        </header>
+
+        <!-- Comparison Table -->
+        <section class="comparison-section">
+            <h2><i class="fas fa-balance-scale"></i> Free vs Pro Comparison</h2>
+            <div class="comparison-table">
+                <div class="comparison-row header">
+                    <div class="feature">Feature</div>
+                    <div class="free">Free</div>
+                    <div class="pro">Pro</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Daily Conversions</div>
+                    <div class="free">5 per day</div>
+                    <div class="pro">Unlimited</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">File Size Limit</div>
+                    <div class="free">16 MB</div>
+                    <div class="pro">100 MB</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Batch Processing</div>
+                    <div class="free"><i class="fas fa-times no"></i></div>
+                    <div class="pro"><i class="fas fa-check yes"></i></div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Priority Support</div>
+                    <div class="free"><i class="fas fa-times no"></i></div>
+                    <div class="pro"><i class="fas fa-check yes"></i></div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">File Storage</div>
+                    <div class="free">Immediate delete</div>
+                    <div class="pro">7 days</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Plans -->
+        <section class="pricing-section">
+            <h2><i class="fas fa-tags"></i> Choose Your Plan</h2>
+            <p class="subtitle">All plans include unlimited conversions</p>
+            
+            <div class="pricing-cards">
+                <!-- Monthly Plan -->
+                <div class="pricing-card" id="monthly-plan">
+                    <div class="card-header">
+                        <h3>Monthly</h3>
+                        <div class="price">$4.99<span>/month</span></div>
+                        <p class="billing">Billed monthly</p>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Unlimited conversions</li>
+                            <li><i class="fas fa-check"></i> 100MB file size</li>
+                            <li><i class="fas fa-check"></i> Batch processing</li>
+                            <li><i class="fas fa-check"></i> No watermarks</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> 7-day file storage</li>
+                        </ul>
+                    </div>
+                    <button class="upgrade-btn" data-plan="monthly">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </button>
+                    <p class="card-note">Most popular</p>
+                </div>
+
+                <!-- Yearly Plan -->
+                <div class="pricing-card featured" id="yearly-plan">
+                    <div class="card-badge">BEST VALUE</div>
+                    <div class="card-header">
+                        <h3>Yearly</h3>
+                        <div class="price">$49.99<span>/year</span></div>
+                        <p class="billing">Billed annually</p>
+                        <p class="savings">Save 16%</p>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Everything in Monthly</li>
+                            <li><i class="fas fa-check"></i> Early feature access</li>
+                            <li><i class="fas fa-check"></i> Custom templates</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                            <li><i class="fas fa-check"></i> Team management</li>
+                            <li><i class="fas fa-check"></i> Priority feature requests</li>
+                        </ul>
+                    </div>
+                    <button class="upgrade-btn featured-btn" data-plan="yearly">
+                        <i class="fas fa-gem"></i> Get Yearly Plan
+                    </button>
+                    <p class="card-note">Save $9.89 per year</p>
+                </div>
+
+                <!-- Lifetime Plan -->
+                <div class="pricing-card" id="lifetime-plan">
+                    <div class="card-header">
+                        <h3>Lifetime</h3>
+                        <div class="price">$99.99<span>/once</span></div>
+                        <p class="billing">One-time payment</p>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Everything in Yearly</li>
+                            <li><i class="fas fa-check"></i> Lifetime updates</li>
+                            <li><i class="fas fa-check"></i> Unlimited API calls</li>
+                            <li><i class="fas fa-check"></i> 10 team seats</li>
+                            <li><i class="fas fa-check"></i> White-label option</li>
+                            <li><i class="fas fa-check"></i> Dedicated support</li>
+                        </ul>
+                    </div>
+                    <button class="upgrade-btn" data-plan="lifetime">
+                        <i class="fas fa-infinity"></i> Get Lifetime
+                    </button>
+                    <p class="card-note">One-time payment</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I cancel anytime?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Cancel anytime. Your Pro features remain active until the end of your billing period.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer refunds?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>30-day money-back guarantee. If not satisfied, contact us for a full refund.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Credit cards (Visa, MasterCard, Amex) and PayPal.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is my data secure?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Files are encrypted and automatically deleted after 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2><i class="fas fa-bolt"></i> Ready to Upgrade?</h2>
+                <p>Join thousands of satisfied users</p>
+                <div class="cta-stats">
+                    <div class="stat">
+                        <div class="number">10K+</div>
+                        <div class="label">Users</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">2M+</div>
+                        <div class="label">Files Converted</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">99.9%</div>
+                        <div class="label">Uptime</div>
+                    </div>
+                </div>
+                <button class="cta-btn" id="final-upgrade-btn">
+                    <i class="fas fa-crown"></i> Start 7-Day Free Trial
+                </button>
+                <p class="cta-note">No credit card required</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="upgrade-footer">
+            <p>Questions? <a href="mailto:support@quickconvert.com">Contact support</a></p>
+            <p class="footer-links">
+                <a href="/">Home</a> • 
+                <a href="#">Privacy</a> • 
+                <a href="#">Terms</a> • 
+                <a href="#">Contact</a>
+            </p>
+            <p class="copyright">© 2024 QuickConvert Pro</p>
+        </footer>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Secure Checkout</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="plan-summary">
+                    <h4 id="selectedPlanName">Monthly Plan</h4>
+                    <div class="plan-price">$4.99/month</div>
+                    <p>Unlimited conversions • Priority support • No watermarks</p>
+                </div>
+                
+                <div class="payment-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="paymentEmail" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h5>Payment Method</h5>
+                        <div class="method-options">
+                            <label class="method-option active">
+                                <input type="radio" name="paymentMethod" value="card" checked>
+                                <i class="fas fa-credit-card"></i> Card
+                            </label>
+                            <label class="method-option">
+                                <input type="radio" name="paymentMethod" value="paypal">
+                                <i class="fab fa-paypal"></i> PayPal
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="card-details" id="cardDetails">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label>CVC</label>
+                                <input type="text" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="security-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>256-bit SSL encryption</span>
+                    </div>
+                    
+                    <button class="pay-now-btn" id="payNowBtn">
+                        <i class="fas fa-lock"></i> Complete Payment
+                    </button>
+                    
+                    <p class="payment-note">
+                        By continuing, you agree to our <a href="#">Terms</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/upgrade.js"></script>
+</body>
+</html>
