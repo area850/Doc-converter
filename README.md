@@ -49,11 +49,6 @@ Built with simplicity and speed in mind, it requires no registration and runs en
 
 > *Note: The exact Python libraries used are not specified. You can update the backend section once the project details are clarified.*
 
----
-
-## 📸 Screenshots
-
-*Coming soon — add images of your interface here.*
 
 ---
 
