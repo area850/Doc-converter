@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="doc-converter/static/docswitch.png" alt="Doc-converter Logo" width="200" height="100"/>
+  <img src="doc-converter/static/docswitch.png" alt="Doc-converter Logo" width="400" height="200"/>
   <h1>Doc-converter</h1>
   <p><strong>Convert your documents to PDF — fast, free, and private.</strong></p>
 
