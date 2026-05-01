@@ -3,110 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocSwitch - Universal Document Converter</title>
+    <title>DocSwitch — Universal Document Converter</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="/static/docswitch.png" alt="DocSwitch Logo">
-            <p>Convert any document to PDF in seconds. Free, fast, and secure.</p>
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-brand">
+            <img src="/static/docswitch.png" alt="DocSwitch">
+            <span class="header-tagline">Document Converter</span>
         </div>
-        
-        <div class="converter-box">
-            <div class="upload-area" id="uploadArea">
+        <a href="/upgrade" class="header-badge">
+            <i class="fas fa-crown"></i> Go Pro
+        </a>
+    </header>
+
+    <!-- CONVERTER -->
+    <div class="converter-box">
+
+        <!-- Upload -->
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Drag & Drop Your File Here</h3>
-                <p>Or click to browse files</p>
-                <p id="fileName">No file selected</p>
-                <input type="file" id="fileInput">
-                <button class="btn" onclick="document.getElementById('fileInput').click()">
-                    <i class="fas fa-folder-open"></i> Browse Files
-                </button>
             </div>
-            
-            <h3>Select Conversion Type:</h3>
-            <div class="conversion-types">
-                <div class="type-card" data-type="docx_to_pdf">
-                    <i class="fas fa-file-word"></i>
-                    <h4>Word to PDF</h4>
-                    <p>.docx → .pdf</p>
-                </div>
-                <div class="type-card" data-type="xlsx_to_pdf">
-                    <i class="fas fa-file-excel"></i>
-                    <h4>Excel to PDF</h4>
-                    <p>.xlsx → .pdf</p>
-                </div>
-                <div class="type-card" data-type="pptx_to_pdf">
-                    <i class="fas fa-file-powerpoint"></i>
-                    <h4>PPT to PDF</h4>
-                    <p>.pptx → .pdf</p>
-                </div>
-                <div class="type-card" data-type="jpg_to_pdf">
-                    <i class="fas fa-file-image"></i>
-                    <h4>Image to PDF</h4>
-                    <p>.jpg/.png → .pdf</p>
-                </div>
-                <div class="type-card" data-type="txt_to_pdf">
-                    <i class="fas fa-file-alt"></i>
-                    <h4>Text to PDF</h4>
-                    <p>.txt → .pdf</p>
-                </div>
-            </div>
-            
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-fill"></div>
-            </div>
-            
-            <button class="btn btn-convert" id="convertBtn">
-                <i class="fas fa-bolt"></i> Convert to PDF
+            <h3>Drop your file here</h3>
+            <p>Drag & drop or click to browse</p>
+            <span id="fileName">No file selected</span>
+            <input type="file" id="fileInput">
+            <button class="btn">
+                <i class="fas fa-folder-open"></i> Browse Files
             </button>
-            
-            <div id="result"></div>
-            
-            <div style="text-align: center; margin-top: 20px; color: #666;">
-                <i class="fas fa-shield-alt"></i> 
-                <small>Your files are processed securely and automatically deleted after conversion.</small>
-            </div>
         </div>
-        
-        <div class="stats">
-            <div class="stat-box">
-                <span class="stat-number" id="todayCount">0</span>
-                Conversions Today
+
+        <!-- Conversion type selector -->
+        <p class="section-label">Select conversion</p>
+        <div class="conversion-types">
+
+            <div class="type-card" data-type="docx_to_pdf">
+                <div class="type-icon icon-word"><i class="fas fa-file-word"></i></div>
+                <h4>Word to PDF</h4>
+                <p>.docx</p>
+                <span class="output-badge badge-pdf">→ PDF</span>
             </div>
-            <div class="stat-box">
-                <span class="stat-number" id="totalCount">0</span>
-                Total Conversions
+
+            <div class="type-card" data-type="xlsx_to_pdf">
+                <div class="type-icon icon-excel"><i class="fas fa-file-excel"></i></div>
+                <h4>Excel to PDF</h4>
+                <p>.xlsx / .xls</p>
+                <span class="output-badge badge-pdf">→ PDF</span>
             </div>
-            <div class="stat-box">
-                <span class="stat-number">5</span>
-                Free Daily Limit
+
+            <div class="type-card" data-type="pptx_to_pdf">
+                <div class="type-icon icon-ppt"><i class="fas fa-file-powerpoint"></i></div>
+                <h4>PPT to PDF</h4>
+                <p>.pptx</p>
+                <span class="output-badge badge-pdf">→ PDF</span>
             </div>
+
+            <div class="type-card" data-type="jpg_to_pdf">
+                <div class="type-icon icon-image"><i class="fas fa-file-image"></i></div>
+                <h4>Image to PDF</h4>
+                <p>.jpg / .png</p>
+                <span class="output-badge badge-pdf">→ PDF</span>
+            </div>
+
+            <div class="type-card" data-type="txt_to_pdf">
+                <div class="type-icon icon-text"><i class="fas fa-file-alt"></i></div>
+                <h4>Text to PDF</h4>
+                <p>.txt / .md / .csv</p>
+                <span class="output-badge badge-pdf">→ PDF</span>
+            </div>
+
+            <div class="type-card" data-type="pdf_to_docx">
+                <div class="type-icon icon-pdf"><i class="fas fa-file-pdf"></i></div>
+                <h4>PDF to Word</h4>
+                <p>.pdf</p>
+                <span class="output-badge badge-docx">→ DOCX</span>
+            </div>
+
+            <div class="type-card" data-type="img_to_txt">
+                <div class="type-icon icon-ocr"><i class="fas fa-font"></i></div>
+                <h4>Image to Text</h4>
+                <p>.jpg / .png</p>
+                <span class="output-badge badge-txt">→ TXT</span>
+            </div>
+
         </div>
-        
-        <div class="supported-formats">
-            <h3><i class="fas fa-check-circle"></i> Supported Formats</h3>
-            <div class="format-grid">
-                <div class="format-chip"><i class="fas fa-file-word"></i> DOCX</div>
-                <div class="format-chip"><i class="fas fa-file-excel"></i> XLSX</div>
-                <div class="format-chip"><i class="fas fa-file-powerpoint"></i> PPTX</div>
-                <div class="format-chip"><i class="fas fa-file-alt"></i> TXT</div>
-                <div class="format-chip"><i class="fas fa-file-code"></i> MD</div>
-                <div class="format-chip"><i class="fas fa-table"></i> CSV</div>
-                <div class="format-chip"><i class="fas fa-file-image"></i> JPG</div>
-                <div class="format-chip"><i class="fas fa-file-image"></i> PNG</div>
-                <div class="format-chip"><i class="fas fa-file-image"></i> GIF</div>
-                <div class="format-chip"><i class="fas fa-file-pdf"></i> Output: PDF</div>
-            </div>
+
+        <!-- Progress -->
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill"></div>
         </div>
-        
-        <div style="text-align: center; margin-top: 40px; color: white;">
-            <p><i class="fas fa-crown"></i> Need more conversions? <a href="/upgrade" style="color: #4cc9f0; text-decoration: none;">Upgrade to Pro</a></p>
+
+        <!-- Convert button -->
+        <button class="btn-convert" id="convertBtn">
+            <i class="fas fa-bolt"></i> Convert Now
+        </button>
+
+        <!-- Result -->
+        <div id="result"></div>
+
+        <!-- Security note -->
+        <div class="security-note">
+            <i class="fas fa-shield-alt"></i>
+            Files are processed securely and deleted immediately after conversion.
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat-box">
+            <span class="stat-number" id="todayCount">0</span>
+            <span class="stat-label">Today</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number" id="totalCount">0</span>
+            <span class="stat-label">Total</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Free / Day</span>
         </div>
     </div>
-    
-    <script src="/static/script.js"></script>
+
+    <!-- SUPPORTED FORMATS -->
+    <div class="supported-formats">
+        <h3><i class="fas fa-layer-group"></i> Supported Formats</h3>
+        <div class="format-grid">
+            <div class="format-chip"><i class="fas fa-file-word"></i> DOCX</div>
+            <div class="format-chip"><i class="fas fa-file-excel"></i> XLSX</div>
+            <div class="format-chip"><i class="fas fa-file-powerpoint"></i> PPTX</div>
+            <div class="format-chip"><i class="fas fa-file-alt"></i> TXT</div>
+            <div class="format-chip"><i class="fas fa-file-code"></i> MD</div>
+            <div class="format-chip"><i class="fas fa-table"></i> CSV</div>
+            <div class="format-chip"><i class="fas fa-file-image"></i> JPG</div>
+            <div class="format-chip"><i class="fas fa-file-image"></i> PNG</div>
+            <div class="format-chip"><i class="fas fa-file-pdf"></i> PDF</div>
+            <div class="format-chip output"><i class="fas fa-file-pdf"></i> PDF out</div>
+            <div class="format-chip output"><i class="fas fa-file-word"></i> DOCX out</div>
+            <div class="format-chip output"><i class="fas fa-file-alt"></i> TXT out</div>
+        </div>
+    </div>
+
+    <div class="upgrade-footer">
+        <p><i class="fas fa-crown"></i> Need unlimited conversions? <a href="/upgrade">Upgrade to Pro →</a></p>
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
 </body>
 </html>
