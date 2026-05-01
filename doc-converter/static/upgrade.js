@@ -1,175 +1,116 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const upgradeBtns = document.querySelectorAll('.upgrade-btn');
-    const finalUpgradeBtn = document.getElementById('final-upgrade-btn');
-    const modal = document.getElementById('paymentModal');
-    const closeModal = document.querySelector('.close-modal');
-    const payNowBtn = document.getElementById('payNowBtn');
-    const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
-    const cardDetails = document.getElementById('cardDetails');
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    
-    let selectedPlan = 'monthly';
-    
-    // Handle plan selection
-    upgradeBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            selectedPlan = this.dataset.plan;
-            openPaymentModal(selectedPlan);
-        });
-    });
-    
-    // Final CTA button
-    finalUpgradeBtn.addEventListener('click', function() {
-        selectedPlan = 'monthly';
-        openPaymentModal(selectedPlan);
-    });
-    
-    // Open payment modal
-    function openPaymentModal(plan) {
-        const planNames = {
-            'monthly': 'Monthly Plan',
-            'yearly': 'Yearly Plan',
-            'lifetime': 'Lifetime Plan'
-        };
-        
-        const planPrices = {
-            'monthly': '$4.99/month',
-            'yearly': '$49.99/year',
-            'lifetime': '$99.99/once'
-        };
-        
-        document.getElementById('selectedPlanName').textContent = planNames[plan];
-        document.querySelector('.plan-price').textContent = planPrices[plan];
-        
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Close modal
-    closeModal.addEventListener('click', closePaymentModal);
-    
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closePaymentModal();
-        }
-    });
-    
-    function closePaymentModal() {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Handle payment method selection
-    paymentMethods.forEach(method => {
-        method.addEventListener('change', function() {
-            const methodValue = this.value;
-            
-            // Show/hide card details
-            if (methodValue === 'card') {
-                cardDetails.style.display = 'block';
-            } else {
-                cardDetails.style.display = 'none';
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Load Stripe publishable key from server ──────────────────────────────
+    let stripeInstance = null;
+
+    fetch('/stripe-key')
+        .then(r => r.json())
+        .then(data => {
+            if (data.publishable_key && data.publishable_key.startsWith('pk_')) {
+                stripeInstance = Stripe(data.publishable_key);
             }
-            
-            // Update active class on labels
-            document.querySelectorAll('.method-option').forEach(label => {
-                label.classList.remove('active');
-            });
-            
-            this.parentElement.classList.add('active');
+        })
+        .catch(() => {});   // Stripe not configured — buttons still work, just redirect
+
+    // ── Handle all upgrade buttons ───────────────────────────────────────────
+    const allUpgradeBtns = document.querySelectorAll('.upgrade-btn, .cta-btn, #final-upgrade-btn');
+
+    allUpgradeBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const plan = this.dataset.plan || 'yearly';
+            openCheckout(plan);
         });
     });
-    
-    // Handle payment submission (simulated)
-    payNowBtn.addEventListener('click', async function() {
-        const email = document.getElementById('paymentEmail').value;
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        
-        if (!email) {
-            alert('Please enter your email address');
-            return;
-        }
-        
+
+    // ── Checkout flow ────────────────────────────────────────────────────────
+    function openCheckout(plan) {
+        const btn = document.querySelector(`[data-plan="${plan}"]`) || document.querySelector('.cta-btn');
+
         // Show loading state
-        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-        this.disabled = true;
-        
-        try {
-            // Simulate API call
-            const response = await fetch('/api/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    plan: selectedPlan,
-                    email: email,
-                    paymentMethod: paymentMethod
-                })
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                // For demo purposes, redirect to success page
-                // In production, you would redirect to Stripe/PayPal checkout
-                setTimeout(() => {
-                    window.location.href = '/payment-success';
-                }, 1000);
-            } else {
-                throw new Error(data.message || 'Payment failed');
-            }
-            
-        } catch (error) {
-            alert(`Payment Error: ${error.message}`);
-            
-            // Reset button
-            this.innerHTML = '<i class="fas fa-lock"></i> Pay Securely';
-            this.disabled = false;
+        const original = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+            btn.disabled  = true;
         }
-    });
-    
-    // FAQ accordion
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
+
+        const email = document.getElementById('checkoutEmail')?.value || '';
+
+        fetch('/create-checkout-session', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ plan, email })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                showToast('error', data.error);
+                resetBtn(btn, original);
+                return;
+            }
+            // Redirect to Stripe Checkout
+            window.location.href = data.url;
+        })
+        .catch(err => {
+            showToast('error', 'Could not connect to payment server. Please try again.');
+            resetBtn(btn, original);
+        });
+    }
+
+    function resetBtn(btn, original) {
+        if (btn) {
+            btn.innerHTML = original;
+            btn.disabled  = false;
+        }
+    }
+
+    // ── FAQ accordion ────────────────────────────────────────────────────────
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', function () {
             const answer = this.nextElementSibling;
-            const icon = this.querySelector('i');
-            
-            // Toggle active class
-            answer.classList.toggle('active');
-            
-            // Rotate icon
-            if (answer.classList.contains('active')) {
+            const icon   = this.querySelector('i');
+            const isOpen = answer.classList.contains('active');
+
+            // Close all
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = '');
+
+            if (!isOpen) {
+                answer.classList.add('active');
                 icon.style.transform = 'rotate(180deg)';
-            } else {
-                icon.style.transform = 'rotate(0deg)';
             }
         });
     });
-    
-    // Highlight best value plan on load
-    document.getElementById('yearly-plan').classList.add('highlight');
-    
-    // Add scroll animation
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+
+    // ── Toast notification ───────────────────────────────────────────────────
+    function showToast(type, message) {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.style.cssText = `
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+            background: ${type === 'error' ? '#ff6b6b' : '#43d9ad'};
+            color: ${type === 'error' ? 'white' : '#0f1117'};
+            padding: 13px 24px; border-radius: 50px; font-weight: 600;
+            font-size: 0.875rem; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ── Highlight selected plan card ─────────────────────────────────────────
+    document.querySelectorAll('.pricing-card').forEach(card => {
+        card.addEventListener('click', function () {
+            document.querySelectorAll('.pricing-card').forEach(c => {
+                c.style.transform = '';
+            });
+            this.style.transform = 'translateY(-8px)';
+            const plan = this.id?.replace('-plan', '') || 'monthly';
+            openCheckout(plan);
         });
-    }, observerOptions);
-    
-    // Observe sections for animation
-    document.querySelectorAll('.comparison-section, .pricing-section, .testimonials-section, .faq-section, .cta-section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'all 0.6s ease';
-        observer.observe(section);
     });
+
 });
