@@ -3,56 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Cancelled - QuickConvert Pro</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Payment Cancelled — DocSwitch</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        .cancel-container {
-            max-width: 600px;
-            margin: 100px auto;
-            text-align: center;
-            padding: 50px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #222535;
+            --border: rgba(255,255,255,0.07); --text: #f0f0f5;
+            --text-muted: #7a7d8e; --accent: #6c63ff; --accent3: #43d9ad;
         }
-        
-        .cancel-icon {
-            font-size: 80px;
-            color: #f44336;
-            margin-bottom: 30px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; display: flex;
+            align-items: center; justify-content: center; padding: 24px;
         }
-        
-        .cancel-container h1 {
-            color: #4361ee;
-            margin-bottom: 20px;
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 48px 40px; max-width: 480px;
+            width: 100%; text-align: center;
         }
+        .icon-wrap {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: rgba(255,107,107,0.1); border: 2px solid rgba(255,107,107,0.2);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px; font-size: 28px; color: #ff6b6b;
+        }
+        h1 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; }
+        .sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 32px; line-height: 1.7; }
+        .nudge {
+            background: var(--surface2); border: 1px solid rgba(108,99,255,0.2);
+            border-radius: 12px; padding: 20px; margin-bottom: 28px;
+        }
+        .nudge h3 { font-family: 'Syne', sans-serif; font-size: 0.85rem; margin-bottom: 6px; }
+        .nudge p { font-size: 0.8rem; color: var(--text-muted); }
+        .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; border-radius: 50px;
+            font-family: 'Syne', sans-serif; font-size: 0.88rem;
+            font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #8b83ff); color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
+        .btn-ghost {
+            background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted);
+        }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
     </style>
 </head>
 <body>
-    <div class="cancel-container">
-        <div class="cancel-icon">
-            <i class="fas fa-times-circle"></i>
-        </div>
-        
-        <h1>Payment Cancelled</h1>
-        
-        <p>Your upgrade to QuickConvert Pro was not completed.</p>
-        <p>You can continue using our free service with 5 conversions per day.</p>
-        
-        <div style="margin: 40px 0;">
-            <h3><i class="fas fa-lightbulb"></i> Want to reconsider?</h3>
-            <p>Upgrade anytime to get unlimited conversions and premium features.</p>
-        </div>
-        
-        <div style="display: flex; gap: 15px; justify-content: center;">
-            <a href="/upgrade" class="btn">
-                <i class="fas fa-crown"></i> Try Again
-            </a>
-            <a href="/" class="btn" style="background: #666;">
-                <i class="fas fa-home"></i> Back to Home
-            </a>
-        </div>
+<div class="card">
+    <div class="icon-wrap"><i class="fas fa-times"></i></div>
+    <h1>Payment Cancelled</h1>
+    <p class="sub">Your upgrade wasn't completed. No charges were made.<br>You can still use DocSwitch free with 5 conversions per day.</p>
+
+    <div class="nudge">
+        <h3><i class="fas fa-lightbulb" style="color:#fbbf24;margin-right:6px"></i> Changed your mind?</h3>
+        <p>Upgrade anytime to get unlimited conversions, 100 MB file support, and priority features.</p>
     </div>
+
+    <div class="actions">
+        <a href="/upgrade" class="btn btn-primary"><i class="fas fa-crown"></i> Try Again</a>
+        <a href="/" class="btn btn-ghost"><i class="fas fa-arrow-left"></i> Back to Converter</a>
+    </div>
+</div>
 </body>
 </html>
