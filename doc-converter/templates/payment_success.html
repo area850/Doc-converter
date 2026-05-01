@@ -3,89 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful - QuickConvert Pro</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Payment Successful — DocSwitch Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        .success-container {
-            max-width: 600px;
-            margin: 100px auto;
-            text-align: center;
-            padding: 50px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #222535;
+            --border: rgba(255,255,255,0.07); --text: #f0f0f5;
+            --text-muted: #7a7d8e; --accent: #6c63ff; --accent3: #43d9ad;
         }
-        
-        .success-icon {
-            font-size: 80px;
-            color: #4CAF50;
-            margin-bottom: 30px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; display: flex;
+            align-items: center; justify-content: center; padding: 24px;
         }
-        
-        .success-container h1 {
-            color: #4361ee;
-            margin-bottom: 20px;
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 48px 40px; max-width: 520px;
+            width: 100%; text-align: center;
         }
-        
-        .success-details {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 30px 0;
-            text-align: left;
+        .icon-wrap {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: rgba(67,217,173,0.12); border: 2px solid rgba(67,217,173,0.25);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px; font-size: 28px; color: var(--accent3);
+            animation: popIn 0.5s ease;
         }
-        
-        .next-steps {
-            text-align: left;
-            margin: 30px 0;
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        .next-steps li {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        h1 {
+            font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
+            margin-bottom: 10px;
         }
+        .sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.6; }
+        .details {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; margin-bottom: 28px; text-align: left;
+        }
+        .details h3 {
+            font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .detail-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row .key { color: var(--text-muted); }
+        .detail-row .val { color: var(--text); font-weight: 500; }
+        .steps { text-align: left; margin-bottom: 28px; }
+        .steps h3 {
+            font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        .step {
+            display: flex; align-items: center; gap: 12px;
+            padding: 9px 0; border-bottom: 1px solid var(--border);
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+        .step:last-child { border-bottom: none; }
+        .step i { color: var(--accent3); width: 14px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--accent), #8b83ff);
+            color: white; border: none; padding: 13px 28px;
+            border-radius: 50px; font-family: 'Syne', sans-serif;
+            font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
     </style>
 </head>
 <body>
-    <div class="success-container">
-        <div class="success-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        
-        <h1>Welcome to QuickConvert Pro! 🎉</h1>
-        
-        <p>Your payment was successful and your Pro account is now active.</p>
-        
-        <div class="success-details">
-            <h3><i class="fas fa-receipt"></i> Order Details</h3>
-            <p><strong>Plan:</strong> Pro Monthly</p>
-            <p><strong>Amount:</strong> $4.99</p>
-            <p><strong>Next Billing:</strong> 30 days from now</p>
-            <p><strong>Account Email:</strong> user@example.com</p>
-        </div>
-        
-        <div class="next-steps">
-            <h3><i class="fas fa-rocket"></i> What's Next?</h3>
-            <ul>
-                <li><i class="fas fa-check"></i> Your account has been upgraded to Pro</li>
-                <li><i class="fas fa-check"></i> Unlimited conversions are now active</li>
-                <li><i class="fas fa-check"></i> Check your email for receipt</li>
-                <li><i class="fas fa-check"></i> Start converting files right away!</li>
-            </ul>
-        </div>
-        
-        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 40px;">
-            <a href="/" class="btn">
-                <i class="fas fa-file-pdf"></i> Start Converting
-            </a>
-        </div>
-        
-        <p style="margin-top: 30px; color: #666;">
-            Need help? <a href="mailto:support@quickconvert.com">Contact our support team</a>
-        </p>
+<div class="card">
+    <div class="icon-wrap"><i class="fas fa-check"></i></div>
+    <h1>You're now Pro 🎉</h1>
+    <p class="sub">Your payment was successful and your Pro account is active. Time to convert without limits.</p>
+
+    <div class="details">
+        <h3><i class="fas fa-receipt"></i> Order Summary</h3>
+        <div class="detail-row"><span class="key">Plan</span><span class="val">Pro Monthly</span></div>
+        <div class="detail-row"><span class="key">Amount</span><span class="val">$4.99</span></div>
+        <div class="detail-row"><span class="key">Next Billing</span><span class="val">30 days from now</span></div>
+        <div class="detail-row"><span class="key">Status</span><span class="val" style="color:var(--accent3)">Active ✓</span></div>
     </div>
+
+    <div class="steps">
+        <h3><i class="fas fa-rocket"></i> What's next</h3>
+        <div class="step"><i class="fas fa-check"></i> Account upgraded to Pro</div>
+        <div class="step"><i class="fas fa-check"></i> Unlimited conversions now active</div>
+        <div class="step"><i class="fas fa-check"></i> Receipt sent to your email</div>
+        <div class="step"><i class="fas fa-check"></i> All Pro features unlocked</div>
+    </div>
+
+    <a href="/" class="btn"><i class="fas fa-bolt"></i> Start Converting</a>
+</div>
 </body>
 </html>
