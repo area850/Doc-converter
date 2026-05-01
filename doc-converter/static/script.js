@@ -1,165 +1,186 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const fileName = document.getElementById('fileName');
-    const conversionCards = document.querySelectorAll('.type-card');
-    const convertBtn = document.getElementById('convertBtn');
-    const progressBar = document.getElementById('progressBar');
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadArea   = document.getElementById('uploadArea');
+    const fileInput    = document.getElementById('fileInput');
+    const fileName     = document.getElementById('fileName');
+    const browseBtn    = document.querySelector('.btn');
+    const convCards    = document.querySelectorAll('.type-card');
+    const convertBtn   = document.getElementById('convertBtn');
+    const progressBar  = document.getElementById('progressBar');
     const progressFill = document.querySelector('.progress-fill');
-    const resultDiv = document.getElementById('result');
-    
+    const resultDiv    = document.getElementById('result');
+
     let selectedFile = null;
     let selectedConversion = 'docx_to_pdf';
-    
-    // Handle file upload
-    uploadArea.addEventListener('click', () => fileInput.click());
-    
-    fileInput.addEventListener('change', function(e) {
+
+    // Browse button
+    browseBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fileInput.click();
+    });
+
+    uploadArea.addEventListener('click', function (e) {
+        if (e.target === browseBtn || browseBtn.contains(e.target)) return;
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
         if (this.files.length > 0) {
             selectedFile = this.files[0];
-            fileName.textContent = selectedFile.name;
-            uploadArea.style.borderColor = '#4CAF50';
-            
-            // Auto-select conversion type based on file extension
-            const ext = selectedFile.name.split('.').pop().toLowerCase();
-            selectConversionType(`${ext}_to_pdf`);
+            setFileName(selectedFile.name);
+            uploadArea.style.borderColor = '#43d9ad';
+            autoSelectType(selectedFile.name.split('.').pop().toLowerCase());
         }
     });
-    
-    // Handle drag and drop
+
+    // Drag & drop
     uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
-        uploadArea.style.borderColor = '#4361ee';
-        uploadArea.style.background = 'rgba(67, 97, 238, 0.1)';
+        uploadArea.classList.add('drag-over');
     });
-    
+
     uploadArea.addEventListener('dragleave', () => {
-        uploadArea.style.borderColor = '#ddd';
-        uploadArea.style.background = '#f8f9fa';
+        uploadArea.classList.remove('drag-over');
+        uploadArea.style.borderColor = '';
     });
-    
+
     uploadArea.addEventListener('drop', (e) => {
         e.preventDefault();
-        uploadArea.style.borderColor = '#ddd';
-        uploadArea.style.background = '#f8f9fa';
-        
+        uploadArea.classList.remove('drag-over');
         if (e.dataTransfer.files.length > 0) {
             fileInput.files = e.dataTransfer.files;
             selectedFile = e.dataTransfer.files[0];
-            fileName.textContent = selectedFile.name;
-            
-            const ext = selectedFile.name.split('.').pop().toLowerCase();
-            selectConversionType(`${ext}_to_pdf`);
+            setFileName(selectedFile.name);
+            uploadArea.style.borderColor = '#43d9ad';
+            autoSelectType(selectedFile.name.split('.').pop().toLowerCase());
         }
     });
-    
-    // Handle conversion type selection
-    conversionCards.forEach(card => {
-        card.addEventListener('click', function() {
-            selectedConversion = this.dataset.type;
-            
-            conversionCards.forEach(c => c.classList.remove('selected'));
+
+    function setFileName(name) {
+        fileName.textContent = name;
+        fileName.classList.add('has-file');
+    }
+
+    // Card selection
+    convCards.forEach(card => {
+        card.addEventListener('click', function () {
+            convCards.forEach(c => c.classList.remove('selected'));
             this.classList.add('selected');
+            selectedConversion = this.dataset.type;
         });
     });
-    
-    function selectConversionType(type) {
-        conversionCards.forEach(card => {
-            card.classList.remove('selected');
-            if (card.dataset.type === type) {
-                card.classList.add('selected');
-                selectedConversion = type;
-            }
+
+    function autoSelectType(ext) {
+        const map = {
+            docx: 'docx_to_pdf',
+            xlsx: 'xlsx_to_pdf', xls: 'xlsx_to_pdf',
+            pptx: 'pptx_to_pdf',
+            jpg: 'jpg_to_pdf', jpeg: 'jpg_to_pdf',
+            png: 'jpg_to_pdf', gif: 'jpg_to_pdf', bmp: 'jpg_to_pdf',
+            txt: 'txt_to_pdf', md: 'txt_to_pdf', csv: 'txt_to_pdf',
+            pdf: 'pdf_to_docx',
+        };
+        const type = map[ext] || 'docx_to_pdf';
+        convCards.forEach(card => {
+            card.classList.toggle('selected', card.dataset.type === type);
         });
+        selectedConversion = type;
     }
-    
-    // Handle conversion
-    convertBtn.addEventListener('click', async function() {
+
+    // Convert
+    convertBtn.addEventListener('click', async function () {
         if (!selectedFile) {
-            alert('Please select a file first!');
+            showResult('error', 'Please select a file first.');
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('conversion_type', selectedConversion);
-        
-        // Show progress
+
         progressBar.style.display = 'block';
         progressFill.style.width = '30%';
-        
+        resultDiv.style.display = 'none';
+
         try {
             const response = await fetch('/convert', {
                 method: 'POST',
                 body: formData
             });
-            
-            progressFill.style.width = '70%';
-            
+
+            progressFill.style.width = '75%';
+
             if (response.ok) {
-                // Get the blob for download
                 const blob = await response.blob();
+
+                // Determine extension from content-disposition or type
+                let ext = 'pdf';
+                const disp = response.headers.get('Content-Disposition') || '';
+                const match = disp.match(/filename=.*?\.(\w+)/);
+                if (match) ext = match[1];
+                else if (selectedConversion === 'pdf_to_docx') ext = 'docx';
+                else if (selectedConversion === 'img_to_txt') ext = 'txt';
+
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = selectedFile.name.replace(/\.[^/.]+$/, "") + '.pdf';
+                a.download = selectedFile.name.replace(/\.[^/.]+$/, '') + '.' + ext;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
-                
+                document.body.removeChild(a);
+
                 progressFill.style.width = '100%';
-                
-                // Show success message
-                resultDiv.innerHTML = `
-                    <i class="fas fa-check-circle" style="color:#4CAF50;font-size:48px;"></i>
-                    <h3>Conversion Successful!</h3>
-                    <p>Your file has been converted and downloaded.</p>
-                `;
-                resultDiv.style.display = 'block';
-                
-                // Reset progress after 2 seconds
+                showResult('success', 'Conversion complete — your file has been downloaded.');
                 setTimeout(() => {
                     progressBar.style.display = 'none';
                     progressFill.style.width = '0%';
                 }, 2000);
-                
-                // Update stats
                 updateStats();
-                
+
             } else {
                 const error = await response.json();
-                throw new Error(error.error || 'Conversion failed');
+                progressBar.style.display = 'none';
+                progressFill.style.width = '0%';
+                if (response.status === 429) {
+                    showResult('limit', error.error || 'Daily limit reached. Try again tomorrow.');
+                } else {
+                    showResult('error', error.error || 'Conversion failed.');
+                }
             }
-            
-        } catch (error) {
+        } catch (err) {
+            progressBar.style.display = 'none';
             progressFill.style.width = '0%';
-            resultDiv.innerHTML = `
-                <i class="fas fa-exclamation-circle" style="color:#f44336;font-size:48px;"></i>
-                <h3>Conversion Failed</h3>
-                <p>${error.message}</p>
-            `;
-            resultDiv.style.display = 'block';
+            showResult('error', err.message);
         }
     });
-    
-    // Update stats
+
+    function showResult(type, message) {
+        const config = {
+            success: { icon: 'fa-check-circle', color: '#43d9ad', title: 'Done!' },
+            limit:   { icon: 'fa-hourglass-half', color: '#ffd166', title: 'Daily Limit Reached' },
+            error:   { icon: 'fa-exclamation-circle', color: '#ff6b6b', title: 'Conversion Failed' },
+        };
+        const { icon, color, title } = config[type];
+        resultDiv.className = type;
+        resultDiv.innerHTML = `
+            <i class="fas ${icon}" style="color:${color}"></i>
+            <h3 style="color:${color}">${title}</h3>
+            <p>${message}</p>
+            ${type === 'limit' ? '<p style="margin-top:8px;font-size:0.78rem;">Free limit: 5 conversions/day. <a href="/upgrade" style="color:#a89dff">Upgrade to Pro →</a></p>' : ''}
+        `;
+        resultDiv.style.display = 'block';
+    }
+
     async function updateStats() {
         try {
-            const response = await fetch('/stats');
-            const data = await response.json();
-            
+            const res = await fetch('/stats');
+            const data = await res.json();
             document.getElementById('todayCount').textContent = data.today;
             document.getElementById('totalCount').textContent = data.total;
-        } catch (error) {
-            console.error('Failed to update stats:', error);
-        }
+        } catch (e) {}
     }
-    
-    // Initial stats update
+
     updateStats();
-    
-    // Load Font Awesome icons dynamically
-    const faScript = document.createElement('script');
-    faScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js';
-    document.head.appendChild(faScript);
+    setInterval(updateStats, 30000);
 });
