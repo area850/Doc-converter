@@ -61,7 +61,7 @@ Built with simplicity and speed in mind, it requires no registration and runs en
 
 ### Installation & Usage
 
-#### Option 1: Use directly in browser
+#### Option: Use directly in browser
 1. Clone the repository:
    ```bash
    git clone https://github.com/area850/Doc-converter.git
