@@ -102,7 +102,7 @@ def is_pro_user(ip, email=None):
             "SELECT status FROM pro_users WHERE email=? AND status='active'", (email,)
         ).fetchone()
         if row: return True
-    # Also store pro IPs for convenience
+    
     row = db.execute(
         "SELECT status FROM pro_users WHERE stripe_customer_id=? AND status='active'", (ip,)
     ).fetchone()
