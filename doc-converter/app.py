@@ -111,7 +111,7 @@ def is_pro_user(ip, email=None):
 def can_convert(ip, email=None):
     # Pro users have unlimited conversions
     if is_pro_user(ip, email):
-        log_conversion(ip, '', '', '')  # still log for stats
+        log_conversion(ip, '', '', '') 
         return True
     today = str(date.today())
     db    = get_db()
